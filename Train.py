@@ -21,6 +21,8 @@ from ActiveLearning import *
 
 create_yaml()
 
+import os
+os.environ['WANDB_MODE'] = 'disabled'
 # torch.cuda.set_device(0)
 import time
 
