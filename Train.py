@@ -17,7 +17,7 @@ from requirements import *
 from Data import *
 from Create_yaml import *
 from Augments import *
-from Active learning import *
+from ActiveLearning import *
 
 create_yaml()
 
