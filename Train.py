@@ -12,6 +12,7 @@ import torchvision.transforms as T
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import jensenshannon
+import argparse
 
 # from requirements import *
 # from Data import *
@@ -20,6 +21,16 @@ from Augments import *
 from ActiveLearning import *
 
 create_yaml()
+parser = argparse.ArgumentParser(description="Active Learning with YOLO and Image Blackout")
+parser.add_argument("--cycles", type=int, default=9, help="Number of active learning cycles")
+parser.add_argument("--num_samples", type=int, default=50, help="Number of images to sample first cycle")
+parser.add_argument("--num_samples2", type=int, default=10, help="Number of images to sample per cycle")
+parser.add_argument("--num_clusters", type=int, default=20, help="Number of clusters for KMeans")
+parser.add_argument("--model_path", type=str, default="yolov8x-worldv2.pt", help="Path to the YOLO model")
+parser.add_argument("--train_epochs", type=int, default=20, help="Number of training epochs")
+parser.add_argument("--output_image_dir", type=str, default="./output_images", help="Directory for saving output images")
+parser.add_argument("--output_label_dir", type=str, default="./output_labels", help="Directory for saving output labels")
+args = parser.parse_args()
 
 import os
 os.environ['WANDB_MODE'] = 'disabled'
@@ -32,7 +43,7 @@ random.seed(time.time())# torch.manual_seed(2)# torch.manual_seed(3)
 # torch.cuda.manual_seed_all(3)
 # np.random.seed(2)
 
-cycles = 9
+cycles = args.cycles
 model = None  # Initialize the model variable
 
 # Function to process labels and image blackout
@@ -150,7 +161,7 @@ def write_file_names_to_text(directory_path, output_file):
 layer_outputs = {}
 confidences = {}
 
-model = YOLOWorld("yolov8x-worldv2.pt")  # or select yolov8m/l-world.pt for different sizes
+model = YOLOWorld(args.model_path)  # or select yolov8m/l-world.pt for different sizes
 # Hook function to store the output of the layer
 def hook_fn(module, input, output):
     layer_outputs['conv2d_output'] = output
@@ -202,15 +213,15 @@ for c in range(cycles):
     label_dir = "/content/datasets/VOC/labels/train2012"
 
     # Path to the directory where you want to move the sampled images and labels
-    output_image_dir = "/content/datasets/VOC_l/images/train2012"
-    output_label_dir = "/content/datasets/VOC_l/labels/train2012"
+    output_image_dir = args.output_image_dir
+    output_label_dir = args.output_label_dir
 
     # Create directories if they don't exist
     os.makedirs(output_image_dir, exist_ok=True)
     os.makedirs(output_label_dir, exist_ok=True)
 
     # Number of images to sample
-    num_samples = 50
+    num_samples = args.num_samples
 
     # Get a list of all image files in the directory
     image_files = os.listdir(image_dir)
@@ -246,7 +257,7 @@ for c in range(cycles):
         features_array = features_array.reshape(features_array.shape[0], features_array.shape[1], -1)
         features_array = features_array.transpose(0, 2, 1).reshape(-1, features_array.shape[1])
         # Perform clustering
-        num_clusters = 20
+        num_clusters = args.num_clusters
         kmeans = KMeans(n_clusters=num_clusters, random_state=0)
         kmeans.fit(features_array)
         region_labels = kmeans.labels_.reshape(len(image_files), 400)
@@ -306,7 +317,7 @@ for c in range(cycles):
 
 
     else:
-            num_samples = 10
+            num_samples = args.num_samples2
             sampled_images = []
             sampled_image_files = set()  # Set to track previously sampled images
 
@@ -392,4 +403,4 @@ for c in range(cycles):
     print("*********************************************************")
     # Train the model
     model = YOLO("yolov8n.pt")  # build a new model from YAML
-    results = model.train(data='VOC_2012.yaml', epochs=20 ,plots=True)
+    results = model.train(data='VOC_2012.yaml', epochs=args.train_epochs ,plots=True)
