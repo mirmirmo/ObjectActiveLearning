@@ -19,9 +19,8 @@ from Create_yaml import *
 from Augments import *
 from ActiveLearning import *
 
-print("hi")
 create_yaml()
-print("bye")
+
 import os
 os.environ['WANDB_MODE'] = 'disabled'
 # torch.cuda.set_device(0)
@@ -352,6 +351,8 @@ for c in range(cycles):
             # `sampled_images` now c
 
     # Move sampled images and their corresponding labels to the output directory
+    print("hi")
+    print("bye")
     for image_file in sampled_images:
         # Move image
         image_path = os.path.join(image_dir, image_file)
