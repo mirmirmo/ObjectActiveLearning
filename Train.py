@@ -13,7 +13,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import jensenshannon
 
-from requirements import *
+# from requirements import *
 from Data import *
 from Create_yaml import *
 from Augments import *
