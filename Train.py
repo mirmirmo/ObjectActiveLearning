@@ -30,8 +30,8 @@ parser.add_argument("--model_path", type=str, default="yolov8x-worldv2.pt", help
 parser.add_argument("--train_epochs", type=int, default=20, help="Number of training epochs")
 parser.add_argument("--output_image_dir", type=str, default="/content/datasets/VOC_l/images/train2012", help="Directory for saving output images")
 parser.add_argument("--output_label_dir", type=str, default="/content/datasets/VOC_l/labels/train2012", help="Directory for saving output labels")
-parser.add_argument("--weight1", type=float, default=0.5, help="weight for image uniformity")
-parser.add_argument("--weight2", type=float, default=0.5, help="weight for pool uniformity")
+parser.add_argument("--weight1", type=float, default=0.95, help="weight for image uniformity")
+parser.add_argument("--weight2", type=float, default=0.05, help="weight for pool uniformity")
 
 args = parser.parse_args()
 
