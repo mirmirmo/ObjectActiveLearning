@@ -371,12 +371,6 @@ for c in range(cycles):
         if not os.path.exists(dest_label_path):
             shutil.move(label_path, dest_label_path)
 
-
-    print("writing names ... ")
-    write_file_names_to_text('/content/datasets/VOC_l/images/train2012', '/content/sample_with_softmax(0_1)(temp=0_006).txt')
-    files.download('/content/sample_with_softmax(0_1)(temp=0_006).txt')
-    time.sleep(5)
-
     print("Number of images: ", len([file for file in os.listdir(output_image_dir) if file.endswith(".jpg")]))
     print("Number of label : ", len([file for file in os.listdir(output_label_dir) if file.endswith(".txt")]))
 
