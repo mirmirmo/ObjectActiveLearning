@@ -28,8 +28,8 @@ parser.add_argument("--num_samples2", type=int, default=10, help="Number of imag
 parser.add_argument("--num_clusters", type=int, default=20, help="Number of clusters for KMeans")
 parser.add_argument("--model_path", type=str, default="yolov8x-worldv2.pt", help="Path to the YOLO model")
 parser.add_argument("--train_epochs", type=int, default=20, help="Number of training epochs")
-parser.add_argument("--output_image_dir", type=str, default="./output_images", help="Directory for saving output images")
-parser.add_argument("--output_label_dir", type=str, default="./output_labels", help="Directory for saving output labels")
+parser.add_argument("--output_image_dir", type=str, default="/content/datasets/VOC_l/images/train2012", help="Directory for saving output images")
+parser.add_argument("--output_label_dir", type=str, default="/content/datasets/VOC_l/labels/train2012", help="Directory for saving output labels")
 args = parser.parse_args()
 
 import os
