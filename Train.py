@@ -19,8 +19,9 @@ from Create_yaml import *
 from Augments import *
 from ActiveLearning import *
 
+print("hi")
 create_yaml()
-
+print("bye")
 import os
 os.environ['WANDB_MODE'] = 'disabled'
 # torch.cuda.set_device(0)
