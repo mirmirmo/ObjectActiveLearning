@@ -392,4 +392,4 @@ for c in range(cycles):
     print("*********************************************************")
     # Train the model
     model = YOLO("yolov8n.pt")  # build a new model from YAML
-    results = model.train(data='/content/VOC_2012.yaml', epochs=20 ,plots=True)
+    results = model.train(data='VOC_2012.yaml', epochs=20 ,plots=True)
