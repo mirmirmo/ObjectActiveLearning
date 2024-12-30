@@ -395,7 +395,7 @@ for c in range(cycles):
     class_counts = get_class_counts(output_label_dir, class_names2)
     for class_name, count in class_counts.items():
         print(f"{class_name}: {count}")
-
+    print("*********************************************************")
     # Train the model
     model = YOLO("yolov8n.pt")  # build a new model from YAML
     results = model.train(data='/content/VOC_2012.yaml', epochs=20 ,plots=True)
