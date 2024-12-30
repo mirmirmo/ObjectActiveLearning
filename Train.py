@@ -230,12 +230,16 @@ for c in range(cycles):
         features_list = []
         confidences_list = []
         for image_file in image_files:
+            
             img_path = os.path.join(image_dir, image_file)
             img = Image.open(img_path).convert('RGB')
             img_tensor = transform(img).unsqueeze(0).to(device)
 
             with torch.no_grad():
+                print("555555555555555555555555555555")
                 model.model(img_tensor)
+                print("666666666666666666666666666666")
+
                 features = layer_outputs['conv2d_output'].cpu().numpy()
                 features_list.append(features)
                 confidences_array = confidences['conv2d_output'].cpu().numpy()
@@ -247,7 +251,6 @@ for c in range(cycles):
         features_array = np.concatenate(features_list, axis=0)
         features_array = features_array.reshape(features_array.shape[0], features_array.shape[1], -1)
         features_array = features_array.transpose(0, 2, 1).reshape(-1, features_array.shape[1])
-        print("555555555555555555555555555555555555555555555555555")
         # Perform clustering
         num_clusters = 20
         kmeans = KMeans(n_clusters=num_clusters, random_state=0)
@@ -270,7 +273,6 @@ for c in range(cycles):
         sampled_frequencies.append(cluster_frequencies[selected_index])
 
         # Select subsequent images
-        print("77777777777777777777777777777777777777777777777")
         while len(sampled_images) < 50:
             # Compute combined std_devs for all unselected images
             combined_std_devs = []
