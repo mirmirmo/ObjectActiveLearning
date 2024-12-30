@@ -151,7 +151,7 @@ layer_outputs = {}
 confidences = {}
 
 model = YOLOWorld("yolov8x-worldv2.pt")  # or select yolov8m/l-world.pt for different sizes
-
+print("1111111111111111111111111111111111111")
 # Hook function to store the output of the layer
 def hook_fn(module, input, output):
     layer_outputs['conv2d_output'] = output
@@ -176,6 +176,7 @@ transform = T.Compose([T.Resize((640, 640)), T.ToTensor()])
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.model.to(device)  # Move the model to the appropriate device
 
+print("2222222222222222222222222222222222222222222")
 
 def get_class_counts(label_dir, class_names):
     # Initialize a dictionary to store class counts
@@ -215,7 +216,7 @@ for c in range(cycles):
 
     # Get a list of all image files in the directory
     image_files = os.listdir(image_dir)
-
+    print("333333333333333333333333333333333333333333333")
     from scipy.special import softmax  # Import the softmax function
     if c == 0:
         sampled_images = []
