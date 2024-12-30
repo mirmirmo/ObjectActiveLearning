@@ -30,6 +30,9 @@ parser.add_argument("--model_path", type=str, default="yolov8x-worldv2.pt", help
 parser.add_argument("--train_epochs", type=int, default=20, help="Number of training epochs")
 parser.add_argument("--output_image_dir", type=str, default="/content/datasets/VOC_l/images/train2012", help="Directory for saving output images")
 parser.add_argument("--output_label_dir", type=str, default="/content/datasets/VOC_l/labels/train2012", help="Directory for saving output labels")
+parser.add_argument("--weight1", type=float, default=0.5, help="weight for image uniformity")
+parser.add_argument("--weight2", type=float, default=0.5, help="weight for pool uniformity")
+
 args = parser.parse_args()
 
 import os
@@ -294,13 +297,13 @@ for c in range(cycles):
             combined_scores = softmax(-np.array(combined_std_devs))
 
             # Combine `std_devs_scores` and `combined_scores` to form a new score
-            total_scores = 0.5 * std_devs_scores + 0.5 * combined_scores
+            total_scores = args.weight1 * std_devs_scores + args.weight2 * combined_scores
 
             # Select the image with the highest combined score
             selected_index = np.argmax(total_scores)
             sampled_images.append(image_files[selected_index])
 
-            print("scores: " , std_devs_scores[selected_index] , combined_scores[selected_index] , 0.5 * std_devs_scores[selected_index] + 0.5 * combined_scores[selected_index])
+            # print("scores: " , std_devs_scores[selected_index] , combined_scores[selected_index] , 0.5 * std_devs_scores[selected_index] + 0.5 * combined_scores[selected_index])
 
             sampled_frequencies.append(cluster_frequencies[selected_index])
         print(len(sampled_images))
