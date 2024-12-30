@@ -15,6 +15,7 @@ import random
 import torch
 
 from torchvision.transforms import functional as F
+from ActiveLearning import *
 
 
 def _flip_coco_person_keypoints(kps, width):
